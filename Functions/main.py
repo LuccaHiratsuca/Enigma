@@ -9,10 +9,10 @@
 import numpy as np
 
 def para_one_hot(msg: str) -> np.array:
-   return np.array([[1 if msg[i] == ('abcdefghijklmnopqrstuvwxyz')[j] else 0 for j in range(26)] for i in range(len(msg))]).T
-
+    return np.array([[1 if {letra: indice for indice, letra in enumerate('abcdefghijklmnopqrstuvwxyz ')}[j] == i else 0 for i in range(27)] for j in msg.lower()]).T
+    
 def para_string(M: np.array) -> str:
-   return ''.join([('abcdefghijklmnopqrstuvwxyz')[np.where(M[:,i] == 1)[0][0]] for i in range(M.shape[1])])
+    return ''.join({indice: letra for indice, letra in enumerate('abcdefghijklmnopqrstuvwxyz ')}[i] for i in np.argmax(M, axis=0))
 
 def cifra(msg: str, M: np.array) -> str:
     return para_string(M @ para_one_hot(msg))
