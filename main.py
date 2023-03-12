@@ -21,3 +21,6 @@ import numpy as np
 def para_one_hot(msg: str) -> np.array:
    return np.array([[1 if msg[i] == ('abcdefghijklmnopqrstuvwxyz')[j] else 0 for j in range(26)] for i in range(len(msg))]).T
 
+def para_string(M: np.array) -> str:
+    return ''.join([('abcdefghijklmnopqrstuvwxyz')[np.where(M[:,i] == 1)[0][0]] for i in range(M.shape[1])])
+
