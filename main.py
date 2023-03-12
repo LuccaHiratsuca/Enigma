@@ -24,6 +24,9 @@ def para_one_hot(msg: str) -> np.array:
 def para_string(M: np.array) -> str:
    return ''.join([('abcdefghijklmnopqrstuvwxyz')[np.where(M[:,i] == 1)[0][0]] for i in range(M.shape[1])])
 
+def cifra(msg: str, M: np.array) -> str:
+    return para_string(M @ para_one_hot(msg))
+
 def de_cifra(msg: str, M: np.array) -> str:
    return para_string(np.linalg.inv(M) @ para_one_hot(msg))
 
