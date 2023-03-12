@@ -1,0 +1,13 @@
+Metadata-Version: 2.1
+Name: enigma-hiratsuca-maluli
+Version: 0.0.1
+Summary: A package to encrypt and decrypt messages using the Enigma Machine and Linear Algebra
+Home-page: https://github.com/LuccaHiratsuca/Enigma
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+
+UNKNOWN
+
