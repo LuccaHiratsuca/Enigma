@@ -8,16 +8,6 @@
 
 import numpy as np
 
-# def para_one_hot(msg: str) -> np.array:
-#     alfabeto = "abcdefghijklmnopqrstuvwxyz"
-#     size_msg = len(msg)
-#     matriz = np.zeros((size_msg, 26))
-#     for i in range(size_msg):
-#         for j in range(26):
-#             if msg[i] == alfabeto[j]:
-#                 matriz[i][j] = 1
-#     return matriz.T
-
 def para_one_hot(msg: str) -> np.array:
    return np.array([[1 if msg[i] == ('abcdefghijklmnopqrstuvwxyz')[j] else 0 for j in range(26)] for i in range(len(msg))]).T
 
