@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "fdb992f5-53bd-4f9a-b377-090ce429138e",
+		"name": "Enygma",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24217364"
+	},
+	"item": [
+		{
+			"name": "Encrypt",
+			"item": [
+				{
+					"name": "OneHot",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"key\": \"Python\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enygma/encrypt/onehot",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enygma",
+								"encrypt",
+								"onehot"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Cifra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"msg\":\"Testando\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enygma/encrypt/cifra",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enygma",
+								"encrypt",
+								"cifra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Enigma",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"msg\":\"funcionando\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enygma/encrypt/enigma",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enygma",
+								"encrypt",
+								"enigma"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Decrypt",
+			"item": [
+				{
+					"name": "String",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"key\": [[0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 1, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 1],\r\n [0, 0, 0, 0, 1, 0],\r\n [1, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 1, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 1, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0],\r\n [0, 0, 0, 0, 0, 0]]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enygma/decrypt/string",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enygma",
+								"decrypt",
+								"string"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "De-Cifra",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"msg\":\"tfstbneo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enygma/decrypt/de-cifra",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enygma",
+								"decrypt",
+								"de-cifra"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "De-Enigma",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"msg\":\"gbbz yeohfi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/enygma/decrypt/de-enigma",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"enygma",
+								"decrypt",
+								"de-enigma"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
