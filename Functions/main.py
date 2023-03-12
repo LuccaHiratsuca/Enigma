@@ -7,6 +7,7 @@
 
 
 import numpy as np
+from functools import reduce
 
 def para_one_hot(msg: str) -> np.array:
     return np.array([[1 if {letra: indice for indice, letra in enumerate('abcdefghijklmnopqrstuvwxyz ')}[j] == i else 0 for i in range(27)] for j in msg.lower()]).T
@@ -21,7 +22,15 @@ def de_cifra(msg: str, M: np.array) -> str:
    return para_string(np.linalg.inv(M) @ para_one_hot(msg))
 
 def enigma(msg: str, P: np.array, E: np.array) -> str:
-    return para_string(np.vstack([P @ para_one_hot(msg[i]) @ np.linalg.matrix_power(E,i) for i in range(len(msg))]).T)
+    hotMessage = para_one_hot(msg).T
+    final = P @ hotMessage[0]
+    for i in range(1,hotMessage.shape[0]):
+        final = np.vstack((final, reduce(lambda x, _: E @ x, range(i), P @ hotMessage[i]).T))
+    return para_string(final.T)
 
 def de_enigma(msg: str, P: np.array, E: np.array) -> str:
-   return para_string(np.vstack([np.linalg.inv(P) @ para_one_hot(msg[i]) @ np.linalg.matrix_power(np.linalg.inv(E),i) for i in range(len(msg))]).T)
+    msg = para_one_hot(msg).T
+    final = np.linalg.inv(P) @ msg[0]
+    for i in range(1,msg.shape[0]):
+        final = np.vstack((final, np.linalg.inv(P) @ reduce(lambda x, _: np.linalg.inv(E) @ x, range(i), msg[i])))
+    return para_string(final.T)
