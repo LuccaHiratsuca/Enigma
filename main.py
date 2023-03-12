@@ -28,4 +28,4 @@ def de_cifra(msg: str, M: np.array) -> str:
    return para_string(np.linalg.inv(M) @ para_one_hot(msg))
 
 def de_enigma(msg: str, P: np.array, E: np.array) -> str:
-    return para_string(np.vstack([np.linalg.inv(P) @ para_one_hot(msg[i]) @ np.linalg.matrix_power(np.linalg.inv(E),i) for i in range(len(msg))]).T)
+   return para_string(np.vstack([np.linalg.inv(P) @ para_one_hot(msg[i]) @ np.linalg.matrix_power(np.linalg.inv(E),i) for i in range(len(msg))]).T)
