@@ -83,11 +83,7 @@ A matriz cifrada resultante final pode ser calculada da seguinte forma:
 
 1. Transpor a matriz hotMessage para obter uma matriz m x 27.
 
-    $hotMessage^T = \begin{bmatrix}
-    \mid & \mid & & \mid \
-    \mathbf{h_1} & \mathbf{h_2} & \cdots & \mathbf{h_m} 
-    \mid & \mid & & \mid \
-    \end{bmatrix}$
+    $hotMessage^T = [h_1, h_2, \cdots, h_m]$
 
 2. Calcular o produto matricial P @ hotMessage[0] para obter a primeira coluna da matriz cifrada final.
 
