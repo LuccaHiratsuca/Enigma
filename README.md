@@ -54,60 +54,110 @@ Em resumo, a biblioteca que desenvolvemos é uma implementação eficiente da ci
 * `de_enigma(msg, P, E)`: Função que recupera uma mensagem cifrada como enigma assumindo que ela foi cifrada com o usando o cifrador P e o cifrador auxiliar E, ambos representados como matrizes de permutação.
 
 ## Modelo Matemático
-Para cifrar uma mensagem usando Enigma, a matriz de permutação de cada rotor é aplicada à mensagem em ordem. Isso é feito da seguinte maneira:
+Para cifrar uma mensagem usando Enigma, a matriz de permutação de cada vetor é aplicada à mensagem em ordem. Isso é feito da seguinte maneira:
 
 ### Criptografia
-A criptografia com Enigma envolve uma série de operações realizadas em uma mensagem de texto, incluindo permutações e substituições de letras. A implementação deste repositório utiliza duas matrizes de permutação, P e E, para realizar a cifra Enigma.
+Para a criptografia, utilizamos a função 'Enigma', a qual é usada para criptografar uma mensagem usando as matrizes de enigma e de permutação fornecidas.
 
-A função enigma recebe como entrada uma mensagem de texto, a matriz P e a matriz E, e retorna a mensagem cifrada. Para cada letra da mensagem, a função realiza as seguintes operações:
+A ideia principal da função é criar uma matriz one-hot a partir da mensagem de entrada, aplicar a matriz de permutação à primeira coluna e, para cada coluna subsequente, aplicar a matriz de enigma E à matriz resultante da multiplicação da matriz one-hot correspondente com todas as matrizes de enigma anteriores usando o operador @ de multiplicação de matriz.
 
-1. Transforma a mensagem em uma matriz one-hot encoding.
+A função começa convertendo a mensagem de entrada em uma matriz one-hot usando a função 'para_one_hot', que retorna uma matriz de tamanho (27, m), onde m é o número de caracteres na mensagem de entrada. A matriz resultante é transposta usando o método '.T.'.
 
-    ```bash
-        matriz_msg = para_one_hot(msg)
-    ```
+Em seguida, a primeira coluna da matriz one-hot é embaralhada aplicando a matriz de permutação P à primeira coluna da matriz one-hot. A matriz de permutação é multiplicada com a primeira coluna da matriz one-hot usando o operador @ de multiplicação de matriz.
 
-2. Multiplica a coluna da respectiva letra na matriz da mensagem pela matriz da permutação P.
+Para cada coluna subsequente da matriz one-hot, a função percorre as matrizes de enigma, aplicando uma matriz de enigma a cada coluna subsequente da matriz one-hot. A matriz de enigma é aplicada usando o operador @ de multiplicação de matriz. A função 'reduce' é usada para aplicar as matrizes de enigma em ordem, começando com a segunda coluna da matriz one-hot e terminando com a última coluna.
 
-    ```bash
-        letra_cifrada = P @ coluna_letra
-    ```
+A função 'np.vstack' é usada para concatenar as colunas processadas da matriz one-hot em uma matriz resultante 'final'. A função 'np.vstack' adiciona uma nova linha a cada iteração do loop for, que é formada pela aplicação das matrizes de enigma às colunas da matriz one-hot.
 
-3. Concatena a matriz resultante à matriz final da mensagem cifrada.
+O resultado final é uma matriz de tamanho (27, m), onde m é o número de caracteres na mensagem original, contendo a representação one-hot da mensagem cifrada. A matriz resultante é transposta e convertida de volta para uma string usando a função 'para_string', que retorna uma string correspondente à mensagem cifrada.
 
-    ```bash
-        matriz_enigma = np.concatenate((matriz_enigma, letra_cifrada), axis=1)
-    ```
-4. Multiplica a matriz de permutação P pela matriz E.
+#### Matematicamente:
+A função enigma pode ser expressa em equações matemáticas da seguinte forma:
 
-    ```bash
-        P = E @ P
-    ```
+- Seja msg uma string de tamanho m contendo a mensagem original. 
+- Seja P uma matriz de permutação 27 x 27. 
+- Seja E uma matriz de enigma 27 x 27. 
+- Seja hotMessage uma matriz 27 x m representando a mensagem original na forma one-hot, onde cada coluna corresponde a um caractere da mensagem.
 
-Ao final das operações, a função retorna a mensagem cifrada em texto.
+A matriz cifrada resultante final pode ser calculada da seguinte forma:
+
+1. Transpor a matriz hotMessage para obter uma matriz m x 27.
+
+    $hotMessage^T = \begin{bmatrix}
+    \mid & \mid & & \mid \
+    \mathbf{h_1} & \mathbf{h_2} & \cdots & \mathbf{h_m} 
+    \mid & \mid & & \mid \
+    \end{bmatrix}$
+
+2. Calcular o produto matricial P @ hotMessage[0] para obter a primeira coluna da matriz cifrada final.
+
+    $final[:,0] = P \cdot hotMessage^T_{:,0}$
+
+3. Para as colunas restantes de hotMessage, calcular o produto matricial E @ x em um loop usando a função reduce para obter cada coluna correspondente de final.
+
+    $final[:,i] = \left(\prod_{j=0}^{i-1} E \right) \cdot P \cdot hotMessage^T_{:,i}$
+
+4. Converter a matriz cifrada final em uma string usando a função para_string.
+
+    $cifra = para_\_string(final^T)$
+
+----
+
 
 ### Decriptografia
-A decriptografia com Enigma segue o mesmo processo da criptografia, porém com a ordem das matrizes de permutação invertida. A função de_enigma recebe como entrada uma mensagem cifrada, a matriz P e a matriz E, e retorna a mensagem original. Para cada letra da mensagem cifrada, a função realiza as seguintes operações:
+A decriptografia com Enigma segue uma lógica parecida com processo da criptografia. Sendo que essa é usada para descriptografar uma mensagem cifrada usando as matrizes de enigma e de permutação fornecidas. <br>
+O objetivo da função é reverter a cifragem feita pela função enigma, que converteu a mensagem original em uma matriz one-hot, aplicou a matriz de permutação à primeira coluna e, para cada coluna subsequente, aplicou a matriz de enigma E à matriz resultante da multiplicação da matriz one-hot correspondente com todas as matrizes de enigma anteriores usando o operador @ de multiplicação de matriz.
 
-1. Transforma a letra cifrada em uma matriz one-hot encoding.
-2. Multiplica a matriz da letra pela matriz inversa de P.
-3. Concatena a matriz resultante à matriz final da mensagem 4.original.
-4. Multiplica a matriz de permutação P pela matriz E.
+A função começa convertendo a mensagem cifrada em uma matriz one-hot usando a função para_one_hot, que retorna uma matriz de tamanho (27, m), onde m é o número de caracteres na mensagem cifrada.
 
-Ao final das operações, a função retorna a mensagem original em texto.
+Em seguida, a primeira coluna da matriz one-hot é desembaralhada aplicando a matriz de permutação inversa np.linalg.inv(P) à primeira coluna da matriz one-hot. A matriz de permutação inversa é encontrada usando a função np.linalg.inv, que calcula a matriz inversa de uma matriz quadrada.
+
+Para cada coluna subsequente da matriz one-hot, a função percorre as matrizes de enigma de trás para frente, aplicando a matriz inversa de cada uma delas à coluna correspondente da matriz one-hot. O resultado da aplicação da matriz inversa de cada matriz de enigma é usado como entrada para a matriz inversa da matriz de permutação np.linalg.inv(P). A função reduce é usada para aplicar as matrizes inversas em ordem reversa, começando com a última matriz de enigma e terminando na primeira.
+
+O resultado final é uma matriz de tamanho (27, m), onde m é o número de caracteres na mensagem cifrada, contendo a representação one-hot da mensagem original. A mensagem original é obtida convertendo a matriz de volta para uma string usando a função para_string, que retorna uma string correspondente à mensagem original.
+
+#### Matematicamente:
+
+Ela recebe três parâmetros: uma string msg representando a mensagem cifrada, uma matriz de permutação P e uma matriz de enigma E.
+
+A matriz decifrada resultante final pode ser calculada da seguinte forma:
+
+Seja msg uma matriz 27 x m representando a mensagem cifrada na forma one-hot, onde cada coluna corresponde a um caractere da mensagem.
+
+1. Para a primeira coluna de msg, calcular o produto matricial da matriz inversa de P com a primeira coluna de msg.
+
+    $final[:,0] = P^{-1} \cdot msg^T_{:,0}$
+
+2. Para as colunas restantes de msg, calcular o produto matricial da matriz inversa de E multiplicada por todas as colunas anteriores de msg (usando a função reduce) com a matriz inversa de P e adicionar a coluna correspondente a final.
+
+    $final[:,i] = P^{-1} \cdot \left(\prod_{j=0}^{i-1} E^{-1} \right) \cdot msg^T_{:,i}$
+
+3. Converter a matriz decifrada final em uma string usando a função para_string.
+
+    $cifra = para_string(final^T)$
+
+<b>Portanto, a equação matemática geral para a função de_enigma seria: </b>
+
+Dada uma mensagem cifrada msg, uma matriz de permutação P e uma matriz de enigma E, a mensagem original pode ser obtida pela seguinte equação:
+
+$final[:,0] = P^{-1} \cdot msg^T_{:,0}$
+
+$final[:,i] = P^{-1} \cdot \left(\prod_{j=0}^{i-1} E^{-1} \right) \cdot msg^T_{:,i}$
+
+$cifra = para_string(final^T)$
 
 ## Como rodar
 
 Para rodar o demo da biblioteca Enigma, siga as instruções abaixo:
 
-## Como instalar a biblioteca
+### Como instalar a biblioteca
 1. Certifique-se de ter o Python 3 instalado em seu computador.
 2. Para instalar a biblioteca, execute o seguinte comando no terminal:
     ```bash
     pip install git+https://github.com/liviatanaka/criptografia_Enigma
     ```
 
-## Como rodar a API
+### Como rodar a API
 1. Certifique-se de que o Python 3 ou superior está instalado no seu computador.
 2. Clone ou faça o download do repositório no seu computador.
     #### 2.1 Clonar o repositório:
