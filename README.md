@@ -95,10 +95,7 @@ A matriz cifrada resultante final pode ser calculada da seguinte forma:
 
 4. Converter a matriz cifrada final em uma string usando a função para_string.
 
-    $cifra = para_\_string(final^T)$
-
-----
-
+    $cifra = para_string(final^T)$
 
 ### Decriptografia
 A decriptografia com Enigma segue uma lógica parecida com processo da criptografia. Sendo que essa é usada para descriptografar uma mensagem cifrada usando as matrizes de enigma e de permutação fornecidas. <br>
@@ -130,7 +127,7 @@ Seja msg uma matriz 27 x m representando a mensagem cifrada na forma one-hot, on
 
 3. Converter a matriz decifrada final em uma string usando a função para_string.
 
-    $cifra = para_string(final^T)$
+     $cifra = para_string(final^T)$
 
 <b>Portanto, a equação matemática geral para a função de_enigma seria: </b>
 
