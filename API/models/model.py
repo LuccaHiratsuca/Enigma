@@ -14,15 +14,21 @@ def de_cifra(msg: str, M: np.array) -> str:
     return para_string(np.linalg.inv(M) @ para_one_hot(msg))
 
 def enigma(msg: str, P: np.array, E: np.array) -> str:
-    hotMessage = para_one_hot(msg).T
-    final = P @ hotMessage[0]
-    for i in range(1,hotMessage.shape[0]):
-        final = np.vstack((final, reduce(lambda x, : E @ x, range(i), P @ hotMessage[i]).T))
-    return para_string(final.T)
+    try:
+        hotMessage = para_one_hot(msg).T
+        final = P @ hotMessage[0]
+        for i in range(1,hotMessage.shape[0]):
+            final = np.vstack((final, reduce(lambda x, _: E @ x, range(i), P @ hotMessage[i]).T))
+        return para_string(final.T)
+    except:
+        return 'Erro: Matriz não invertível'
 
 def de_enigma(msg: str, P: np.array, E: np.array) -> str:
-    msg = para_one_hot(msg).T
-    final = np.linalg.inv(P) @ msg[0]
-    for i in range(1,msg.shape[0]):
-        final = np.vstack((final, np.linalg.inv(P) @ reduce(lambda x, : np.linalg.inv(E) @ x, range(i), msg[i])))
-    return para_string(final.T)
+    try:
+        msg = para_one_hot(msg).T
+        final = np.linalg.inv(P) @ msg[0]
+        for i in range(1,msg.shape[0]):
+            final = np.vstack((final, np.linalg.inv(P) @ reduce(lambda x, _: np.linalg.inv(E) @ x, range(i), msg[i])))
+        return para_string(final.T)
+    except:
+        return 'Erro: Matriz não invertível'
